@@ -1,3 +1,4 @@
+import core.RepoCloner;
 import instrumentor.JSASTInstrumentor;
 
 import java.io.File;
@@ -22,6 +23,7 @@ import com.google.common.collect.HashMultimap;
 
 import core.JSAnalyzer;
 import core.TraceAnalyzer;
+import core.RepoCloner;
 
 public class GetRepoStat {
 
@@ -41,8 +43,8 @@ public class GetRepoStat {
 		"https://github.com/jashkenas/backbone",
 		"https://github.com/marionettejs/backbone.marionette",
 		"https://github.com/yaronn/blessed-contrib",
-		"https://github.com/petkaantonov/bluebird",*/
-		"https://github.com/expressjs/body-parser",
+		"https://github.com/petkaantonov/bluebird",
+		"https://github.com/expressjs/body-parser",*/
 		"https://github.com/angular-ui/bootstrap",/*
 		"https://github.com/eternicode/bootstrap-datepicker",
 		"https://github.com/dangrossman/bootstrap-daterangepicker/",
@@ -789,6 +791,10 @@ public class GetRepoStat {
 		driver = new FirefoxDriver();
 
 		for (int i = 0; i< repoList.length; i++){
+
+			//clone the repository because TestCodePropertyAnalyzer.java and CoverageCalculator.java need it
+			RepoCloner.cloneRepo(repoList[i]);
+
 			// Load the html test runner in the browser to get coverage
 			driver.get(repoList[i]);
 			System.out.print("Loading the URL " + repoList[i]);
