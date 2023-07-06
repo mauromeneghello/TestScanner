@@ -11,10 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.CopyUtils;
 import org.apache.commons.io.IOUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
@@ -23,11 +20,13 @@ import com.google.common.collect.HashMultimap;
 
 import core.JSAnalyzer;
 import core.TraceAnalyzer;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Runner {
 	
-	private static String testsFolder = "/Applications/MAMP/htdocs/testAnalysisProject/Roguelike";
-	private static String htmlTestRunner = "/Applications/MAMP/htdocs/testAnalysisProject/Roguelike/test.html";
+	private static String testsFolder = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/jquery-ui/tests";              //C:/Users/Mauro/Desktop/Universita/Tesi/swagger-ui
+	private static String htmlTestRunner = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/jquery-ui/tests/index.html";    //C:/Users/Mauro/IdeaProjects/TestScanner/swagger-ui.html
 
 	private static ArrayList<String> instrumentedJSFiles = new ArrayList<String>();
 
@@ -93,6 +92,8 @@ public class Runner {
 			driver = new FirefoxDriver();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
+
+
 			// Load the html test runner with the instrumented tests in the browser to execute the tests
 			String newTestRunner = "file:///" + htmlTestRunner.replace(".html", "_instrumented.html");
 			try{
@@ -123,8 +124,10 @@ public class Runner {
 			for (String jsFile: jsFileNames){
 				try{
 					System.out.println("Getting the traceList from " + jsFile);
-					//System.out.println("return " + jsFile.replace(".js","") + "_getFuncionCallTrace();");
-					traceList = (ArrayList)((JavascriptExecutor) driver).executeScript("return " + jsFile.replace(".js","").replace("-", "_") + "_getFuncionCallTrace();");
+					System.out.println("return " + jsFile.replace(".js","") + "_getFunctionCallTrace();");
+					traceList = (ArrayList)((JavascriptExecutor) driver).executeScript("return " + jsFile.replace(".js","").replace("-", "_") + "_getFunctionCallTrace();");
+					//traceList = (ArrayList)((JavascriptExecutor) driver).executeScript("return getFunctionCallTrace();");
+
 					System.out.println("traceList: " + traceList);
 					Map<String,String> traceMap;
 					for (int i=0; i<traceList.size(); i++){
@@ -135,7 +138,7 @@ public class Runner {
 					}
 				}
 				catch(Exception e){
-					System.out.println("Failed to execute " + jsFile.replace(".js","") + " _getFuncionCallTrace();" + e);
+					System.out.println("Failed to execute " + jsFile.replace(".js","") + "_getFuncionCallTrace();" + e);
 				}
 			}
 

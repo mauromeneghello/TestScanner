@@ -39,3 +39,6 @@ Thumbs.db
 # Project temporary files #
 .keystore
 constraints.txt
+# IntelliJ folders or files #
+.idea
+TestScanner.iml

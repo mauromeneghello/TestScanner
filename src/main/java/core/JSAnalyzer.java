@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.generic.FLOAD;
+//import org.apache.bcel.generic.FLOAD;
 import org.apache.commons.io.CopyUtils;
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -166,11 +166,13 @@ public class JSAnalyzer {
 	 *            Address of the JavaScript code to be instrumented
 	 * @param scopeName
 	 *            Name of the current scope (filename mostly)
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@SuppressWarnings("deprecation")
 	public String instrumentJavaScript() throws Exception {
 
+		System.out.println("add:"+jsAddress);
+		System.out.println("sco:"+scopeName);
 		// reading js form the input file
 		String input = "";
 		FileInputStream inputStream = new FileInputStream(jsAddress);

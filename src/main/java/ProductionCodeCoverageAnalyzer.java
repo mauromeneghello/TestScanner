@@ -38,19 +38,19 @@ import org.json.simple.parser.ParseException;
 
 public class ProductionCodeCoverageAnalyzer {
 
-	//private static String coverageReportType = "json"; // json/lcov
-	private static String coverageReportType = "lcov"; // json/lcov
+	private static String coverageReportType = "json"; // json/lcov
+	//private static String coverageReportType = "lcov"; // json/lcov
 
 
 	// *********** JSON FORMAT **************
-	private static String jf_subjectCoverageFolder = "fueluxCoverageReport";
-	private static String jf_coverageReportPath = "/Users/aminmf/Downloads/JSCover-1.0.23/target/" + jf_subjectCoverageFolder;
+	private static String jf_subjectCoverageFolder = "jqueryCoverageReport";
+	private static String jf_coverageReportPath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/" + jf_subjectCoverageFolder;
 	private static String jf_jsCoveragePath = jf_coverageReportPath + "/jscoverage.json";
 	private static String jf_jsSourcePath = jf_coverageReportPath + "/original-src/";
 
 	// *********** LCOV FORMAT **************
-	private static String lf_jsCoveragePath = "/Users/aminmf/Documents/JavaScriptTestsStudy/popularJS/timesheet.js/coverage/source/";    // look for TARGET.js.html 
-	private static String lf_projectSourcePath = "/Users/aminmf/Documents/JavaScriptTestsStudy/popularJS/timesheet.js/";   // search for TARGET.js in the lf_projectSourcePath 
+	private static String lf_jsCoveragePath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/jquery-uiCoverageReport/";    // look for TARGET.js.html
+	private static String lf_projectSourcePath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/jquery-uiCoverageReport/original-src/";   // search for TARGET.js in the lf_projectSourcePath
 
 
 	private static ArrayList<String> jsFileNames = new ArrayList<String>();
@@ -87,21 +87,32 @@ public class ProductionCodeCoverageAnalyzer {
 				FileReader reader = new FileReader(jf_jsCoveragePath);
 				JSONParser jsonParser = new JSONParser();
 				JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
-				File dir = new File("../../../Downloads/JSCover-1.0.23/target/"  + jf_subjectCoverageFolder + "/original-src/");
+				//System.out.println(jsonObject);
+				//File dir = new File("../../../Downloads/JSCover-1.0.23/target/"  + jf_subjectCoverageFolder + "/original-src/");
+				File dir = new File(jf_jsSourcePath);
 				String[] extensions = new String[] { "js" };
 				System.out.println("Getting all .js files in " + dir.getCanonicalPath() + " including those in subdirectories");
 				List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
 				for (File file : files) {
-					String jsFile = file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("/original-src/")+13);
+					String jsFile = file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("original-src")+12);
+					//String jsFile = file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("/original-src/")+1);
 					jsFileCanonicalPathList.add(file.getCanonicalPath());
 					//System.out.println(file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("/original-src/")+13));
 					//System.out.println(file.getCanonicalPath());
+
 					System.out.println(jsFile);
 					//System.out.println(jsonObject.get(jsFile));
-					JSONObject innerObj = (JSONObject) jsonObject.get(jsFile);
+					//JSONObject innerObj = (JSONObject) jsonObject.get(jsFile);
+
+
+					String jsFileKey = jsFile.replace("\\", "/");
+					JSONObject innerObj = (JSONObject) jsonObject.get(jsFileKey);
+					System.out.println(jsFileKey);
+					System.out.println(innerObj);
+
 					if (innerObj == null) // bypass libs or externals that are ignored when reporting coverage
 						continue;
-					//System.out.println("lineData: " + innerObj.get("lineData"));
+					System.out.println("lineData: " + innerObj.get("lineData"));
 					ArrayList lineData = (ArrayList)innerObj.get("lineData");
 					for (int i=1; i<lineData.size(); i++){
 						//System.out.println(lineData.get(i));
@@ -232,7 +243,7 @@ public class ProductionCodeCoverageAnalyzer {
 
 
 	private static void analyseJSFile(String canonicalPath, ArrayList<Integer> coveredStatementLines, ArrayList<Integer> missedStatementLines, ArrayList<Integer> coveredFunctionsIndices, ArrayList<Integer> missedFunctionLines) throws Exception {
-		codeAnalyzer = new JSAnalyzer(new JSASTInstrumentor(), jf_jsSourcePath, null);	
+		codeAnalyzer = new JSAnalyzer(new JSASTInstrumentor(), jf_jsSourcePath, null);
 		File jsFile = new File(canonicalPath);
 		String fileName = jsFile.getName();
 

@@ -29,7 +29,7 @@ import core.TraceAnalyzer;
 public class TestCodePropertyAnalyzer {
 
 	private static String testsFramework = "mocha";  // {"qunit", "jasmine", "mocha", "nodeunit"}
-	private static String testsFolder = "/Users/aminmf/Documents/JavaScriptTestsStudy/popularJS/pageres/test/";
+	private static String testsFolder = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/body-parser/test"; //C:\Users\Mauro\Desktop\Universita\Tesi\test
 		
 	private static String[] excludeFolders = {"assets", "coverage", "lib", "libs", "casper", "lcov-report"	};		
 	

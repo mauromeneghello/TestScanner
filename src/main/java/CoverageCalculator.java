@@ -18,6 +18,7 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
@@ -27,14 +28,15 @@ import core.TraceAnalyzer;
 
 public class CoverageCalculator {
 
-	// java -jar target/dist/JSCover-all.jar -ws --proxy --port=3128 --report-dir=target/jscover --log=WARNING --no-instrument=/testAnalysisProject/Leaflet/spec/
-
-	//private static String repositoryName = "jquery";
-	//private static String htmlTestRunner = "http://localhost:8888/jquery/test/index.html";
+	//java -jar target/dist/JSCover-all.jar -ws --proxy --port=3128 --report-dir=target/jscover --log=WARNING --no-instrument=/testAnalysisProject/Leaflet/spec/
 
 	private static String repositoryName = "jquery-ui";
-	private static String htmlTestRunner = "http://localhost:8888/testAnalysisProject/jquery-ui/tests/unit/all.html";
-	
+	private static String htmlTestRunner = "http://localhost:3128/jquery-ui/tests/index_instrumented.html";
+
+	//private static String repositoryName = "swagger-ui";
+	//private static String htmlTestRunner = "http://localhost:8080/swagger-ui/test/e2e-selenium/static/index.html";
+
+
 	private static long wait = 60000;
 	
 	
@@ -42,14 +44,15 @@ public class CoverageCalculator {
 
 	public static void main(String[] args) throws Exception {
 
-
+		FirefoxOptions options = new FirefoxOptions();
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("network.proxy.http", "localhost");
 		profile.setPreference("network.proxy.http_port", 3128);
 		profile.setPreference("network.proxy.type", 1);
 		profile.setPreference("network.proxy.no_proxies_on", "");
-		driver = new FirefoxDriver(profile);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		options.setProfile(profile);
+
+		driver = new FirefoxDriver(options);
 
 		// Load the html test runner in the browser to get coverage
 		try{
@@ -81,7 +84,6 @@ public class CoverageCalculator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 
 		try{
 			((JavascriptExecutor) driver).executeScript("return jscoverage_report('" + repositoryName + "CoverageReport');");

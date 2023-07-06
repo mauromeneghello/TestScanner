@@ -3,10 +3,7 @@ import instrumentor.JSASTInstrumentor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.CopyUtils;
@@ -29,7 +26,7 @@ import core.TraceAnalyzer;
 public class GetRepoStat {
 
 	private static String[] repoList = {
-		"https://github.com/gabrielecirulli/2048",
+		/*"https://github.com/gabrielecirulli/2048",
 		"https://github.com/ajaxorg/ace",
 		"https://github.com/doublespeakgames/adarkroom",
 		"https://github.com/fabien-d/alertify.js/tree/0.3",
@@ -44,9 +41,9 @@ public class GetRepoStat {
 		"https://github.com/jashkenas/backbone",
 		"https://github.com/marionettejs/backbone.marionette",
 		"https://github.com/yaronn/blessed-contrib",
-		"https://github.com/petkaantonov/bluebird",
+		"https://github.com/petkaantonov/bluebird",*/
 		"https://github.com/expressjs/body-parser",
-		"https://github.com/angular-ui/bootstrap",
+		"https://github.com/angular-ui/bootstrap",/*
 		"https://github.com/eternicode/bootstrap-datepicker",
 		"https://github.com/dangrossman/bootstrap-daterangepicker/",
 		"https://github.com/jschr/bootstrap-modal/",
@@ -780,7 +777,7 @@ public class GetRepoStat {
 		"https://github.com/chevex/yargs",
 		"https://github.com/yeoman/yosay",
 		"https://github.com/madrobby/zepto",
-		"https://github.com/zeroclipboard/zeroclipboard"
+		"https://github.com/zeroclipboard/zeroclipboard"*/
 	};
 
 
@@ -791,25 +788,33 @@ public class GetRepoStat {
 	public static void main(String[] args) throws Exception {
 		driver = new FirefoxDriver();
 
-		for (int i = 0; i< 377; i++){
+		for (int i = 0; i< repoList.length; i++){
 			// Load the html test runner in the browser to get coverage
 			driver.get(repoList[i]);
-			//System.out.print("Loading the URL " + repoList[i]);
+			System.out.print("Loading the URL " + repoList[i]);
 
 			// make sure all tests are finished before getting the trace
-			//waitForPageToLoad();
+			waitForPageToLoad();
 
-			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='social-count']"));
+			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='Link--muted']"));
+			System.out.println(socials.get(4).getText() + "\t");   //stars
+			System.out.println(socials.get(5).getText() + "\t");   //watching
+			System.out.println(socials.get(6).getText() + "\t");   //forks
 
-			System.out.print(socials.get(0).getText() + "\t");
-			System.out.print(driver.findElement(By.xpath("//a[@class='social-count js-social-count']")).getText() + "\t");
-			System.out.print(socials.get(1).getText() + "\t");
+			List<WebElement> nums = driver.findElements(By.xpath("//a[@class='Link--primary no-underline']"));
+			System.out.println(nums.get(0).getText() + "\t");    //realeses
+			System.out.println(nums.get(1).getText() + "\t");     //used by
 
-			List<WebElement> nums = driver.findElements(By.xpath("//span[@class='num text-emphasized']"));;
-			System.out.print(nums.get(0).getText() + "\t");
-			System.out.print(nums.get(1).getText() + "\t");
-			System.out.print(nums.get(2).getText() + "\t");
-			System.out.println(nums.get(3).getText() + "\t");
+			List<WebElement> other = driver.findElements(By.xpath("//a[@class='ml-3 Link--primary no-underline']"));
+			System.out.println(other.get(0).getText() + "\t");   //branches
+			System.out.println(other.get(1).getText() + "\t");   //tags
+
+			List<WebElement> commits = driver.findElements(By.xpath("//span[@class='d-none d-sm-inline']"));
+			System.out.println(commits.get(1).getText() + "\t");   //commits
+
+			List<WebElement> contributors = driver.findElements(By.xpath("//span[@class='Counter ml-1']"));
+			System.out.println(contributors.get(1).getText() + " contributors\t");   //contributors
+
 		}
 
 		driver.quit();
