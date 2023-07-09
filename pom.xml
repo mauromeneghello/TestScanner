@@ -20,7 +20,7 @@
 	
 
 	<dependencies>
-				
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-io</artifactId>
@@ -81,6 +81,26 @@
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>6.5.0.202303070854-r</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.threeten</groupId>
+			<artifactId>threetenbp</artifactId>
+			<version>1.6.5</version>
+		</dependency>
 
 
 	</dependencies>
@@ -91,8 +111,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.9.2</version>
 				<configuration>
-				<source>1.6</source>
-				<target>1.6</target>
+				<source>1.8</source>
+				<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>

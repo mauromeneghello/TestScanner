@@ -1,3 +1,4 @@
+import core.SaveResults;
 import instrumentor.JSASTInstrumentor;
 
 import java.io.File;
@@ -56,9 +57,9 @@ public class TestCodePropertyAnalyzer {
 			System.out.println("No file found in directory: " + testsFolder);
 			return;
 		}
-		for (File file : files)
+		for (File file : files) {
 			processFile(file);
-
+		}
 	}
 
 	private static void processFile(File file) throws IOException, Exception {
@@ -101,6 +102,9 @@ public class TestCodePropertyAnalyzer {
 		NumTriggerTest: Number of tests with event triggering methods
 		NumObjCreate: Number of objects creation in the test suite
 		*/
+
+		String[] stats =new String[8];
+
 		File jsFile = new File(canonicalPath);
 		String fileName = jsFile.getName();
 
@@ -137,6 +141,19 @@ public class TestCodePropertyAnalyzer {
 		System.out.println("==========================");
 
 		System.out.println(NumTests + "\t" + NumAsyncTests + "\t" + NumAssertions + "\t" + NumFunCallTest + "\t" + MaxFunCall + "\t" + AveFunCall + "\t" + NumTriggerInTest + "\t" + NumObjCreate);
+		stats[0] = "" + NumTests;
+		stats[1] = "" + NumAsyncTests;
+		stats[2] = "" + NumAssertions;
+		stats[3] = "" + NumFunCallTest;
+		stats[4] = "" + MaxFunCall;
+		stats[5] = "" + AveFunCall;
+		stats[6] = "" + NumTriggerInTest;
+		stats[7] = "" + NumObjCreate;
+
+		//System.out.println(testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())));
+
+		SaveResults.WriteResultToExcel(2,testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())),"",  stats);
+		System.out.println("Results saved succesfully!");
 	}
 
 	

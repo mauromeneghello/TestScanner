@@ -1,4 +1,4 @@
-import core.RepoCloner;
+import core.*;
 import instrumentor.JSASTInstrumentor;
 
 import java.io.File;
@@ -21,8 +21,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 
-import core.JSAnalyzer;
-import core.TraceAnalyzer;
 import core.RepoCloner;
 
 public class GetRepoStat {
@@ -789,8 +787,11 @@ public class GetRepoStat {
 
 	public static void main(String[] args) throws Exception {
 		driver = new FirefoxDriver();
+		String[] stats = new String[9];
 
 		for (int i = 0; i< repoList.length; i++){
+
+			stats = new String[]{"", "", "", "", "", "", "", "", ""};
 
 			//clone the repository because TestCodePropertyAnalyzer.java and CoverageCalculator.java need it
 			RepoCloner.cloneRepo(repoList[i]);
@@ -803,24 +804,37 @@ public class GetRepoStat {
 			waitForPageToLoad();
 
 			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='Link--muted']"));
+			stats[0] = socials.get(4).getText().substring(0, socials.get(4).getText().indexOf(" ") );
 			System.out.println(socials.get(4).getText() + "\t");   //stars
+			stats[1] = socials.get(5).getText().substring(0, socials.get(5).getText().indexOf(" ") );
 			System.out.println(socials.get(5).getText() + "\t");   //watching
+			stats[2] = socials.get(6).getText().substring(0, socials.get(6).getText().indexOf(" ") );
 			System.out.println(socials.get(6).getText() + "\t");   //forks
 
 			List<WebElement> nums = driver.findElements(By.xpath("//a[@class='Link--primary no-underline']"));
 			System.out.println(nums.get(0).getText() + "\t");    //realeses
+			stats[3] = nums.get(0).getText().substring(nums.get(0).getText().lastIndexOf(" ") + 1 );
 			System.out.println(nums.get(1).getText() + "\t");     //used by
+			stats[4] = nums.get(1).getText().substring(nums.get(1).getText().lastIndexOf(" ") + 1 );
+
 
 			List<WebElement> other = driver.findElements(By.xpath("//a[@class='ml-3 Link--primary no-underline']"));
 			System.out.println(other.get(0).getText() + "\t");   //branches
+			stats[5] = other.get(0).getText().substring(0, other.get(0).getText().indexOf(" ") );
 			System.out.println(other.get(1).getText() + "\t");   //tags
+			stats[6] = other.get(1).getText().substring(0, other.get(1).getText().indexOf(" ") );
 
 			List<WebElement> commits = driver.findElements(By.xpath("//span[@class='d-none d-sm-inline']"));
 			System.out.println(commits.get(1).getText() + "\t");   //commits
+			stats[7] = commits.get(1).getText().substring(0, commits.get(1).getText().indexOf(" ") );
 
 			List<WebElement> contributors = driver.findElements(By.xpath("//span[@class='Counter ml-1']"));
 			System.out.println(contributors.get(1).getText() + " contributors\t");   //contributors
+			stats[8] = contributors.get(1).getText();
 
+
+			SaveResults.WriteResultToExcel(1,repoList[i].substring(repoList[i].lastIndexOf("/") + 1),repoList[i], stats );
+			System.out.println("Results saved succesfully!");
 		}
 
 		driver.quit();
