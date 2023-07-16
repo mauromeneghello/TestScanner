@@ -42,3 +42,5 @@ constraints.txt
 # IntelliJ folders or files #
 .idea
 TestScanner.iml
+# doc
+doc

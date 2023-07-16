@@ -147,8 +147,7 @@ public final class Helper {
 	}
 
 	/**
-	 * Retrieve the var value for varName from a HTTP query string (format is
-	 * "var1=val1&var2=val2").
+	 * Retrieve the var value for varName from a HTTP query string (format is "var1=val1&var2=val2").
 	 * 
 	 * @param varName
 	 *            the name.

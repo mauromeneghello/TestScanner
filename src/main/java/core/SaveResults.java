@@ -11,16 +11,24 @@ import org.threeten.bp.LocalDate;
 import org.apache.poi.ss.usermodel.*;
 
 public class SaveResults {
-    /*
-     * 1) Java class that writes results on excel file.
+    /**
+     * Java class that writes results on excel file.
      */
 
-    private static String excelFilePath = "C:/Users/Mauro/Desktop/Universita/Tesi/results.xlsx";
+    private static String excelFilePath = "C:/Users/Mauro/Desktop/Universita/Tesi/results.xlsx";   //path to the excel results file
 
     public static void main(String[] args) {
         String[] numbers = {"dff", "ddd", "fgh", "fgh", "a", "fg", "xx", "m,", "òl"};
         WriteResultToExcel(1,"kl123","www.prova.provaaa", numbers);
     }
+
+    /**
+     * Function that writes results on the excel file.
+     * @param type type of data to insert (1 -> data from GetRepoStat.java, 2 -> data from TestCodePropertyAnalyzer.java, 3 -> data from ProductionCodeCoverageAnalyzer.
+     * @param subject_name name of the repository whose data are saved.
+     * @param subject_url url of the repository whose data are saved.
+     * @param data data to be written on file
+     */
 
     public static void WriteResultToExcel (int type, String subject_name, String subject_url, String[] data) {
 
@@ -263,7 +271,7 @@ public class SaveResults {
                                 if (uncovStatementCell == null) {
                                     uncovStatementCell = row.createCell(48);
                                 }
-                                uncovStatementCell.setCellValue(data[12]);
+                                uncovStatementCell.setCellValue(data[13]);
                                 break;
                             default:
                                 System.out.println("ERROR in writing results on excel file!");
@@ -413,7 +421,7 @@ public class SaveResults {
                         domCovCell.setCellValue(data[19]);
 
                         Cell uncovStatementCell = newRow.createCell(48);
-                        uncovStatementCell.setCellValue(data[12]);
+                        uncovStatementCell.setCellValue(data[13]);
 
                         break;
                     default:

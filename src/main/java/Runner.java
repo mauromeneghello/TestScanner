@@ -25,8 +25,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Runner {
 	
-	private static String testsFolder = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/jquery-ui/tests";              //C:/Users/Mauro/Desktop/Universita/Tesi/swagger-ui
-	private static String htmlTestRunner = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/jquery-ui/tests/index.html";    //C:/Users/Mauro/IdeaProjects/TestScanner/swagger-ui.html
+	private static String testsFolder = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/bootstrap-datepicker/tests";              //C:/Users/Mauro/Desktop/Universita/Tesi/swagger-ui
+	private static String htmlTestRunner = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/bootstrap-datepicker/tests/tests.html";    //C:/Users/Mauro/IdeaProjects/TestScanner/swagger-ui.html
 
 	private static ArrayList<String> instrumentedJSFiles = new ArrayList<String>();
 

@@ -162,10 +162,6 @@ public class JSAnalyzer {
 
 
 	/**
-	 * @param jsAddress
-	 *            Address of the JavaScript code to be instrumented
-	 * @param scopeName
-	 *            Name of the current scope (filename mostly)
 	 * @throws Exception
 	 */
 	@SuppressWarnings("deprecation")

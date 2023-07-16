@@ -8,12 +8,16 @@ import java.io.File;
 
 public class RepoCloner {
 
-    /*
-     * 1) Java class that clones github repository.
+    /**
+     * Java class that clones github repository.
     */
 
-    private static String destinationPath = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList";
+    private static String destinationPath = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList";  //path to the directory in which the repositories are cloned.
 
+    /**
+     * Function that automatically clones the repository.
+     * @param repositoryUrl url of the repository to be cloned.
+     */
     public static void cloneRepo(String repositoryUrl) {
 
         File repoName = new File(destinationPath + "/" + repositoryUrl.substring(repositoryUrl.lastIndexOf("/") + 1));

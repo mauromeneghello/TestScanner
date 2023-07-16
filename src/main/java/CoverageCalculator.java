@@ -30,8 +30,8 @@ public class CoverageCalculator {
 
 	//java -jar target/dist/JSCover-all.jar -ws --proxy --port=3128 --report-dir=target/jscover --log=WARNING --no-instrument=/testAnalysisProject/Leaflet/spec/
 
-	private static String repositoryName = "jquery-ui";
-	private static String htmlTestRunner = "http://localhost:3128/jquery-ui/tests/index_instrumented.html";
+	private static String repositoryName = "es5-shim1";
+	private static String htmlTestRunner = "http://localhost:3128/es5-shim/tests/index.html";
 
 	//private static String repositoryName = "swagger-ui";
 	//private static String htmlTestRunner = "http://localhost:8080/swagger-ui/test/e2e-selenium/static/index.html";

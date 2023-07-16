@@ -44,7 +44,7 @@ public class ProductionCodeCoverageAnalyzer {
 
 
 	// *********** JSON FORMAT **************
-	private static String jf_subjectCoverageFolder = "jqueryCoverageReport";
+	private static String jf_subjectCoverageFolder = "zeroclipboardCoverageReport";
 	private static String jf_coverageReportPath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/" + jf_subjectCoverageFolder;
 	private static String jf_jsCoveragePath = jf_coverageReportPath + "/jscoverage.json";
 	private static String jf_jsSourcePath = jf_coverageReportPath + "/original-src/";
