@@ -1,3 +1,4 @@
+import core.RepoInfo;
 import instrumentor.JSASTInstrumentor;
 
 import java.io.File;
@@ -30,11 +31,9 @@ public class CoverageCalculator {
 
 	//java -jar target/dist/JSCover-all.jar -ws --proxy --port=3128 --report-dir=target/jscover --log=WARNING --no-instrument=/testAnalysisProject/Leaflet/spec/
 
-	private static String repositoryName = "es5-shim1";
-	private static String htmlTestRunner = "http://localhost:3128/es5-shim/tests/index.html";
-
-	//private static String repositoryName = "swagger-ui";
-	//private static String htmlTestRunner = "http://localhost:8080/swagger-ui/test/e2e-selenium/static/index.html";
+	private static String repositoryName;
+	private static String htmlTestRunner;
+	private static String localhost = "http://localhost:3128";
 
 
 	private static long wait = 60000;
@@ -42,7 +41,10 @@ public class CoverageCalculator {
 	
 	private static WebDriver driver;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(RepoInfo repo) throws Exception {
+
+		repositoryName = repo.getRepo_name();
+		htmlTestRunner = localhost + "/" + repo.getRepo_name() + repo.getHtml_test_runner_path().substring(repo.getHtml_test_runner_path().indexOf(repo.getRepo_name()) + repo.getRepo_name().length());
 
 		FirefoxOptions options = new FirefoxOptions();
 		FirefoxProfile profile = new FirefoxProfile();

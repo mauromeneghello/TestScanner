@@ -12,24 +12,25 @@ public class RepoCloner {
      * Java class that clones github repository.
     */
 
-    private static String destinationPath = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList";  //path to the directory in which the repositories are cloned.
 
     /**
      * Function that automatically clones the repository.
-     * @param repositoryUrl url of the repository to be cloned.
+     * @param repo information of the repository to be cloned.
      */
-    public static void cloneRepo(String repositoryUrl) {
+    public static void cloneRepo(RepoInfo repo) {
 
-        File repoName = new File(destinationPath + "/" + repositoryUrl.substring(repositoryUrl.lastIndexOf("/") + 1));
+        RepoInfo r = new RepoInfo();
+
+        File repoName = new File(repo.getCloning_dir_path() + "/" + repo.getRepo_name());
 
         if (repoName.exists() && repoName.listFiles().length > 0) {
             System.out.println("Folder already exists, abort cloning!");
         }else {
             try {
-                System.out.println("Cloning repository: " + repositoryUrl + " in " + repoName);
+                System.out.println("Cloning repository: " + repo.getRepo_url() + " in " + repoName);
 
                 Git.cloneRepository()
-                        .setURI(repositoryUrl)
+                        .setURI(repo.getRepo_url())
                         .setDirectory(repoName)
                         .call();
 

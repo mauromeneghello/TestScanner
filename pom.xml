@@ -101,15 +101,21 @@
 			<artifactId>threetenbp</artifactId>
 			<version>1.6.5</version>
 		</dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
 
 
-	</dependencies>
+
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.2</version>
+				<version>3.1</version>
 				<configuration>
 				<source>1.8</source>
 				<target>1.8</target>

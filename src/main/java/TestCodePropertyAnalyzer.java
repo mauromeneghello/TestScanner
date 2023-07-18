@@ -1,3 +1,4 @@
+import core.RepoInfo;
 import core.SaveResults;
 import instrumentor.JSASTInstrumentor;
 
@@ -30,8 +31,7 @@ import core.TraceAnalyzer;
 public class TestCodePropertyAnalyzer {
 
 	private static String testsFramework = "mocha";  // {"qunit", "jasmine", "mocha", "nodeunit"}
-	private static String testsFolder = "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/zeroclipboard/test"; //C:\Users\Mauro\Desktop\Universita\Tesi\test
-		
+	private static String testsFolder;
 	private static String[] excludeFolders = {"assets", "coverage", "lib", "libs", "casper", "lcov-report"	};		
 	
 
@@ -46,7 +46,9 @@ public class TestCodePropertyAnalyzer {
 	private static int NumTriggerInTest;
 	private static int NumObjCreate;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(RepoInfo repo) throws Exception {
+
+		testsFolder = repo.getRepo_test_folder_path();
 
 		codeAnalyzer = new JSAnalyzer(new JSASTInstrumentor(), testsFolder, null);		
 
@@ -62,7 +64,7 @@ public class TestCodePropertyAnalyzer {
 		}
 	}
 
-	private static void processFile(File file) throws IOException, Exception {
+	public static void processFile(File file) throws IOException, Exception {
 		if (ArrayUtils.contains(excludeFolders, file.getName())){
 			System.out.println("*** Analysis excluded for: " + file.getName());
 			return;
@@ -152,8 +154,8 @@ public class TestCodePropertyAnalyzer {
 
 		//System.out.println(testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())));
 
-		SaveResults.WriteResultToExcel(2,testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())),"",  stats);
-		System.out.println("Results saved succesfully!");
+		//SaveResults.WriteResultToExcel(2,testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())),"",  stats);
+		//System.out.println("Results saved succesfully!");
 	}
 
 	

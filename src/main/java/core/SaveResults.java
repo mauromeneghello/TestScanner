@@ -17,11 +17,6 @@ public class SaveResults {
 
     private static String excelFilePath = "C:/Users/Mauro/Desktop/Universita/Tesi/results.xlsx";   //path to the excel results file
 
-    public static void main(String[] args) {
-        String[] numbers = {"dff", "ddd", "fgh", "fgh", "a", "fg", "xx", "m,", "òl"};
-        WriteResultToExcel(1,"kl123","www.prova.provaaa", numbers);
-    }
-
     /**
      * Function that writes results on the excel file.
      * @param type type of data to insert (1 -> data from GetRepoStat.java, 2 -> data from TestCodePropertyAnalyzer.java, 3 -> data from ProductionCodeCoverageAnalyzer.

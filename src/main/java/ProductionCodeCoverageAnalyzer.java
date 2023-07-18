@@ -1,3 +1,4 @@
+import core.RepoInfo;
 import core.SaveResults;
 import instrumentor.JSASTInstrumentor;
 
@@ -44,10 +45,10 @@ public class ProductionCodeCoverageAnalyzer {
 
 
 	// *********** JSON FORMAT **************
-	private static String jf_subjectCoverageFolder = "zeroclipboardCoverageReport";
-	private static String jf_coverageReportPath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/" + jf_subjectCoverageFolder;
-	private static String jf_jsCoveragePath = jf_coverageReportPath + "/jscoverage.json";
-	private static String jf_jsSourcePath = jf_coverageReportPath + "/original-src/";
+	private static String jf_subjectCoverageFolder;
+	private static String jf_coverageReportPath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/";
+	private static String jf_jsCoveragePath;
+	private static String jf_jsSourcePath;
 
 	// *********** LCOV FORMAT **************
 	private static String lf_jsCoveragePath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/jquery-uiCoverageReport/";    // look for TARGET.js.html
@@ -74,7 +75,7 @@ public class ProductionCodeCoverageAnalyzer {
 	private static int totalMissedStatementLines;
 
 
-	public static void main(String[] args) throws Exception {
+	public static void main(RepoInfo repo) throws Exception {
 
 		ArrayList<Integer> coveredStatementLines = new ArrayList<Integer>();
 		ArrayList<Integer> missedStatementLines = new ArrayList<Integer>();
@@ -82,6 +83,12 @@ public class ProductionCodeCoverageAnalyzer {
 		ArrayList<Integer> missedFunctionLines = new ArrayList<Integer>();
 
 		if (coverageReportType.equals("json")){
+
+			jf_subjectCoverageFolder = repo.getRepo_name() + "CoverageReport";
+			jf_coverageReportPath += jf_subjectCoverageFolder;
+ 			jf_jsCoveragePath = jf_coverageReportPath + "/jscoverage.json";
+			jf_jsSourcePath = jf_coverageReportPath + "/original-src/";
+
 			try {
 				ArrayList<String> jsFileCanonicalPathList = new ArrayList<String>();
 				// Load JSON coverage report file
@@ -358,8 +365,8 @@ public class ProductionCodeCoverageAnalyzer {
 
 		System.out.println("==========================");
 
-		SaveResults.WriteResultToExcel(3,jf_subjectCoverageFolder.substring(0, jf_subjectCoverageFolder.indexOf("CoverageReport")),"",  stats);
-		System.out.println("Results saved succesfully!");
+		//SaveResults.WriteResultToExcel(3,jf_subjectCoverageFolder.substring(0, jf_subjectCoverageFolder.indexOf("CoverageReport")),"",  stats);
+		//System.out.println("Results saved succesfully!");
 	}
 
 }
