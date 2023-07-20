@@ -2,8 +2,10 @@
   "repo_info" : {
     "name": "bootstrap-datepicker",
     "url": "https://github.com/uxsolutions/bootstrap-datepicker",
-    "testFolderPath": "C:/Users/Mauro/Desktop/Universita/Tesi/bootstrap-datepicker/tests",
-    "cloneDirPath": "C:/Users/Mauro/Desktop/Universita/Tesi",
-    "html_test_runner_path": "C:/Users/Mauro/Desktop/Universita/Tesi/bootstrap-datepicker/tests/tests.html"
+    "testFolderPath": "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/bootstrap-datepicker/tests",
+    "cloneDirPath": "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList",
+    "html_test_runner_path": "C:/Users/Mauro/Desktop/Universita/Tesi/RepoList/bootstrap-datepicker/tests/tests.html",
+    "JSCover_path": "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/",
+    "time_development": "true"
   }
 }

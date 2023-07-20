@@ -25,16 +25,19 @@ public class SaveResults {
      * @param data data to be written on file
      */
 
-    public static void WriteResultToExcel (int type, String subject_name, String subject_url, String[] data) {
+    public static void WriteResultToExcel (int type, String subject_name, String subject_url, String version, String[] data) {
 
         try {
             FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
             Workbook workbook = WorkbookFactory.create(fileInputStream);
             FileOutputStream fileOut = new FileOutputStream(excelFilePath);
 
-            // Crea un foglio di lavoro
-            Sheet sheet = workbook.getSheetAt(0);
-            System.out.println(sheet.getLastRowNum());
+            // get excel sheet or create a new one
+            Sheet sheet = workbook.getSheet(subject_name);
+            if (sheet == null) {
+                sheet = workbook.createSheet(subject_name);
+            }
+            //System.out.println(sheet.getLastRowNum());
 
             boolean foundSubject = false;
 
@@ -43,7 +46,7 @@ public class SaveResults {
 
                 if (row != null) {
                     Cell cell = row.getCell(0);
-                    if (cell != null && cell.getStringCellValue().equals(subject_name)) {
+                    if (cell != null && cell.getStringCellValue().equals(version)) {
                         switch (type) {
                             case 1:
 
@@ -282,7 +285,7 @@ public class SaveResults {
                     case 1:
 
                         Cell nameCell = newRow.createCell(0);
-                        nameCell.setCellValue(subject_name);
+                        nameCell.setCellValue(version);
 
                         Cell urlCell = newRow.createCell(1);
                         urlCell.setCellValue(subject_url);
@@ -315,7 +318,7 @@ public class SaveResults {
                     case 2:
 
                         nameCell = newRow.createCell(0);
-                        nameCell.setCellValue(subject_name);
+                        nameCell.setCellValue(version);
 
                         urlCell = newRow.createCell(1);
                         urlCell.setCellValue(subject_url);
@@ -344,7 +347,7 @@ public class SaveResults {
                     case 3:
 
                         nameCell = newRow.createCell(0);
-                        nameCell.setCellValue(subject_name);
+                        nameCell.setCellValue(version);
 
                         urlCell = newRow.createCell(1);
                         urlCell.setCellValue(subject_url);
@@ -426,6 +429,7 @@ public class SaveResults {
 
 
             workbook.write(fileOut);
+            fileInputStream.close();
             fileOut.close();
             workbook.close();
         } catch (IOException e) {

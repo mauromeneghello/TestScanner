@@ -46,7 +46,7 @@ public class ProductionCodeCoverageAnalyzer {
 
 	// *********** JSON FORMAT **************
 	private static String jf_subjectCoverageFolder;
-	private static String jf_coverageReportPath = "C:/Users/Mauro/Desktop/Universita/Tesi/JSCover-2.0.18/target/jscover/";
+	private static String jf_coverageReportPath;
 	private static String jf_jsCoveragePath;
 	private static String jf_jsSourcePath;
 
@@ -73,19 +73,27 @@ public class ProductionCodeCoverageAnalyzer {
 	private static int neverExecFunCallSites;
 	private static int totalMissedStatementLinesInMissedFunctionCounter;
 	private static int totalMissedStatementLines;
+	private static String previous_version = null;
+	private static String repo_name;
 
 
-	public static void main(RepoInfo repo) throws Exception {
+	public static void main(RepoInfo repo, String version) throws Exception {
 
 		ArrayList<Integer> coveredStatementLines = new ArrayList<Integer>();
 		ArrayList<Integer> missedStatementLines = new ArrayList<Integer>();
 		ArrayList<Integer> coveredFunctionsIndices = new ArrayList<Integer>();
 		ArrayList<Integer> missedFunctionLines = new ArrayList<Integer>();
 
+		repo_name = repo.getRepo_name();
+
 		if (coverageReportType.equals("json")){
 
-			jf_subjectCoverageFolder = repo.getRepo_name() + "CoverageReport";
-			jf_coverageReportPath += jf_subjectCoverageFolder;
+			if(version.equals("main")){
+				jf_subjectCoverageFolder = repo.getRepo_name() + "CoverageReport";
+			}else{
+				jf_subjectCoverageFolder = repo.getRepo_name() + "-" + version + "CoverageReport";
+			}
+			jf_coverageReportPath = repo.getJSCover_path() + jf_subjectCoverageFolder;
  			jf_jsCoveragePath = jf_coverageReportPath + "/jscoverage.json";
 			jf_jsSourcePath = jf_coverageReportPath + "/original-src/";
 
@@ -145,7 +153,7 @@ public class ProductionCodeCoverageAnalyzer {
 					//System.out.println("coveredFunctionsIndices: " + coveredFunctionsIndices);
 					//System.out.println("missedFunctionsIndices: " + missedFunctionsIndices);
 
-					analyseJSFile(file.getCanonicalPath(), coveredStatementLines, missedStatementLines, coveredFunctionsIndices, null);
+					analyseJSFile(file.getCanonicalPath(), coveredStatementLines, missedStatementLines, coveredFunctionsIndices, null, version);
 
 					coveredStatementLines.clear();
 					missedStatementLines.clear();
@@ -230,7 +238,7 @@ public class ProductionCodeCoverageAnalyzer {
 							//System.out.println("coveredFunctionsIndices: " + coveredFunctionsIndices);
 							//System.out.println("missedFunctionsIndices: " + missedFunctionsIndices);
 
-							analyseJSFile(jsSourceFile, coveredStatementLines, missedStatementLines, null, missedFunctionLines);
+							analyseJSFile(jsSourceFile, coveredStatementLines, missedStatementLines, null, missedFunctionLines, version);
 
 							coveredStatementLines.clear();
 							missedStatementLines.clear();
@@ -250,12 +258,31 @@ public class ProductionCodeCoverageAnalyzer {
 	}
 
 
-	private static void analyseJSFile(String canonicalPath, ArrayList<Integer> coveredStatementLines, ArrayList<Integer> missedStatementLines, ArrayList<Integer> coveredFunctionsIndices, ArrayList<Integer> missedFunctionLines) throws Exception {
+	private static void analyseJSFile(String canonicalPath, ArrayList<Integer> coveredStatementLines, ArrayList<Integer> missedStatementLines, ArrayList<Integer> coveredFunctionsIndices, ArrayList<Integer> missedFunctionLines, String version) throws Exception {
 		codeAnalyzer = new JSAnalyzer(new JSASTInstrumentor(), jf_jsSourcePath, null);
 		File jsFile = new File(canonicalPath);
 		String fileName = jsFile.getName();
 
 		String[] stats =new String[20];
+
+		if(!version.equals(previous_version)){
+			coveredRegularFunc = 0;
+			missedRegularFunc = 0;
+			coveredCallback = 0;
+			missedCallback = 0;
+			coveredAsyncCallback = 0;
+			missedAsyncCallback = 0;
+			coveredEventCallback = 0;
+			missedEventCallback = 0;
+			coveredClosure = 0;
+			missedClosure = 0;
+			coveredDOMRelated = 0;
+			missedDOMRelated = 0;
+			neverExecFunCallSites = 0;
+			totalMissedStatementLinesInMissedFunctionCounter = 0;
+			totalMissedStatementLines = 0;
+		}
+		previous_version = version;
 
 		System.out.println(canonicalPath);
 		codeAnalyzer.setJSFileName(fileName);
@@ -365,8 +392,8 @@ public class ProductionCodeCoverageAnalyzer {
 
 		System.out.println("==========================");
 
-		//SaveResults.WriteResultToExcel(3,jf_subjectCoverageFolder.substring(0, jf_subjectCoverageFolder.indexOf("CoverageReport")),"",  stats);
-		//System.out.println("Results saved succesfully!");
+		SaveResults.WriteResultToExcel(3,repo_name,"", version, stats);
+		System.out.println("Results saved succesfully!");
 	}
 
 }

@@ -41,7 +41,7 @@ public class CoverageCalculator {
 	
 	private static WebDriver driver;
 
-	public static void main(RepoInfo repo) throws Exception {
+	public static void main(RepoInfo repo, String version) throws Exception {
 
 		repositoryName = repo.getRepo_name();
 		htmlTestRunner = localhost + "/" + repo.getRepo_name() + repo.getHtml_test_runner_path().substring(repo.getHtml_test_runner_path().indexOf(repo.getRepo_name()) + repo.getRepo_name().length());
@@ -88,7 +88,11 @@ public class CoverageCalculator {
 		}
 
 		try{
-			((JavascriptExecutor) driver).executeScript("return jscoverage_report('" + repositoryName + "CoverageReport');");
+			if(version.equals("main")){
+				((JavascriptExecutor) driver).executeScript("return jscoverage_report('" + repositoryName + "CoverageReport');");
+			}else{
+				((JavascriptExecutor) driver).executeScript("return jscoverage_report('" + repositoryName + "-" + version + "CoverageReport');");
+			}
 			System.out.println("Coverage report generated.");
 		}
 		catch(Exception e){

@@ -30,7 +30,7 @@ import core.TraceAnalyzer;
 
 public class TestCodePropertyAnalyzer {
 
-	private static String testsFramework = "mocha";  // {"qunit", "jasmine", "mocha", "nodeunit"}
+	private static String testsFramework = "qunit";  // {"qunit", "jasmine", "mocha", "nodeunit"}
 	private static String testsFolder;
 	private static String[] excludeFolders = {"assets", "coverage", "lib", "libs", "casper", "lcov-report"	};		
 	
@@ -45,10 +45,13 @@ public class TestCodePropertyAnalyzer {
 	private static float AveFunCall = 0;
 	private static int NumTriggerInTest;
 	private static int NumObjCreate;
+	private static String repo_name;
+	private static String previous_version = null;
 
-	public static void main(RepoInfo repo) throws Exception {
+	public static void main(RepoInfo repo, String version) throws Exception {
 
 		testsFolder = repo.getRepo_test_folder_path();
+		repo_name = repo.getRepo_name();
 
 		codeAnalyzer = new JSAnalyzer(new JSASTInstrumentor(), testsFolder, null);		
 
@@ -60,11 +63,11 @@ public class TestCodePropertyAnalyzer {
 			return;
 		}
 		for (File file : files) {
-			processFile(file);
+			processFile(file, version);
 		}
 	}
 
-	public static void processFile(File file) throws IOException, Exception {
+	public static void processFile(File file, String version) throws IOException, Exception {
 		if (ArrayUtils.contains(excludeFolders, file.getName())){
 			System.out.println("*** Analysis excluded for: " + file.getName());
 			return;
@@ -77,7 +80,7 @@ public class TestCodePropertyAnalyzer {
 				return;
 			}
 			for (File innerFile : files)
-				processFile(innerFile);
+				processFile(innerFile, version);
 		}
 		if (file.isFile()) {
 			String fileName = file.getName();
@@ -85,7 +88,7 @@ public class TestCodePropertyAnalyzer {
 			if (!fileName.contains("qunit") && fileName.endsWith(".js") && !fileName.contains("jquery")) {
 				//&& !fileName.equals("es.js") && !fileName.equals("helpers.js") && !fileName.equals("karma.conf.js") && !fileName.equals("es.js") && !fileName.equals("library.js")
 				//){
-				analyseJSTestFile(file.getCanonicalPath());
+				analyseJSTestFile(file.getCanonicalPath(), version);
 			}
 		}
 		
@@ -93,7 +96,7 @@ public class TestCodePropertyAnalyzer {
 	
 	
 
-	private static void analyseJSTestFile(String canonicalPath) throws Exception {
+	private static void analyseJSTestFile(String canonicalPath, String version) throws Exception {
 		/*
 	 	NumTests: Number of tests
 		NumAsyncTests: Number of async tests
@@ -104,6 +107,20 @@ public class TestCodePropertyAnalyzer {
 		NumTriggerTest: Number of tests with event triggering methods
 		NumObjCreate: Number of objects creation in the test suite
 		*/
+
+
+
+		if(!version.equals(previous_version)){
+			NumTests = 0;
+			NumAsyncTests = 0;
+			NumAssertions = 0;
+			NumFunCallTest = 0;
+			MaxFunCall = 0;
+			AveFunCall = 0;
+			NumTriggerInTest = 0;
+			NumObjCreate = 0;
+		}
+		previous_version = version;
 
 		String[] stats =new String[8];
 
@@ -154,11 +171,11 @@ public class TestCodePropertyAnalyzer {
 
 		//System.out.println(testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())));
 
-		//SaveResults.WriteResultToExcel(2,testsFolder.substring(testsFolder.indexOf("RepoList/") + "RepoList/".length(), testsFolder.indexOf("/", testsFolder.indexOf("RepoList/") + "RepoList/".length())),"",  stats);
-		//System.out.println("Results saved succesfully!");
+		SaveResults.WriteResultToExcel(2,repo_name,"", version, stats );
+		System.out.println("Results saved succesfully!");
 	}
 
-	
+
 }
 
 

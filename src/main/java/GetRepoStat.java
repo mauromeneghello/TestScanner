@@ -33,15 +33,12 @@ public class GetRepoStat {
 	private static WebDriver driver;
 
 
-	public static void main(RepoInfo repo_info) throws Exception {
+	public static void main(RepoInfo repo_info, String version) throws Exception {
 		try {
 			driver = new FirefoxDriver();
 			String[] stats = new String[9];
 
 			stats = new String[]{"", "", "", "", "", "", "", "", ""};
-
-			//clone the repository because TestCodePropertyAnalyzer.java and CoverageCalculator.java need it
-			RepoCloner.cloneRepo(repo_info);
 
 			// Load the html test runner in the browser to get coverage
 			driver.get(repo_info.getRepo_url());
@@ -50,15 +47,15 @@ public class GetRepoStat {
 			// make sure all tests are finished before getting the trace
 			waitForPageToLoad();
 
-			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='Link--muted']"));
-			stats[0] = socials.get(4).getText().substring(0, socials.get(4).getText().indexOf(" ") );
-			System.out.println(socials.get(4).getText() + "\t");   //stars
-			stats[1] = socials.get(5).getText().substring(0, socials.get(5).getText().indexOf(" ") );
-			System.out.println(socials.get(5).getText() + "\t");   //watching
-			stats[2] = socials.get(6).getText().substring(0, socials.get(6).getText().indexOf(" ") );
-			System.out.println(socials.get(6).getText() + "\t");   //forks
+			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='Link Link--muted']"));
+			stats[0] = socials.get(0).getText().substring(0, socials.get(0).getText().indexOf(" ") );
+			System.out.println(socials.get(0).getText() + "\t");   //stars
+			stats[1] = socials.get(1).getText().substring(0, socials.get(1).getText().indexOf(" ") );
+			System.out.println(socials.get(1).getText() + "\t");   //watching
+			stats[2] = socials.get(2).getText().substring(0, socials.get(2).getText().indexOf(" ") );
+			System.out.println(socials.get(2).getText() + "\t");   //forks
 
-			List<WebElement> nums = driver.findElements(By.xpath("//a[@class='Link--primary no-underline']"));
+			List<WebElement> nums = driver.findElements(By.xpath("//a[@class='Link--primary no-underline Link']"));
 			System.out.println(nums.get(0).getText() + "\t");    //realeses
 			stats[3] = nums.get(0).getText().substring(nums.get(0).getText().lastIndexOf(" ") + 1 );
 			//System.out.println(nums.get(1).getText() + "\t");     //used by
@@ -80,7 +77,7 @@ public class GetRepoStat {
 			stats[8] = contributors.get(1).getText();
 
 
-			//SaveResults.WriteResultToExcel(1,repo_info.getRepo_name(),repo_info.getRepo_url(), stats );
+			SaveResults.WriteResultToExcel(1,repo_info.getRepo_name(),repo_info.getRepo_url(), version, stats );
 			System.out.println("Results saved succesfully!");
 
 
