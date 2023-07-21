@@ -23,6 +23,8 @@ public class Launch {
 
             //clone the repository because TestCodePropertyAnalyzer.java and CoverageCalculator.java need it
             RepoCloner.cloneRepo(repo);
+            String current_branch = RepoCloner.getCurrentBranchOrVersion(repo);
+            //System.out.println(current_branch);
 
 
             //launch
@@ -33,13 +35,14 @@ public class Launch {
 
                 List<String> versions = RepoCloner.getImportantVersions(repo);
                 for (String v : versions) {
-                    System.out.println(v);
-                    RepoCloner.change_version(repo,v);
+                    //System.out.println(v);
+                    RepoCloner.change_version(repo,v);                          //change version and analyse it
                     launcher(repo,v);
                 }
-/*
-                RepoCloner.change_version(repo,"v1.5.0(2015)");
-                launcher(repo,"v1.5.0(2015)");*/
+
+                if (current_branch != null) {
+                    RepoCloner.change_version(repo,current_branch);            //back to main (current) version
+                }
             }
 
 
@@ -73,6 +76,7 @@ public class Launch {
         String JSCoverPath = repoInfo.getString("JSCover_path");
         boolean time_dev = repoInfo.getBoolean("time_development");
 
+        //create object RepoInfo
         RepoInfo repo = new RepoInfo(name,url,testFolderPath,cloneDirPath, test_runner, JSCoverPath, time_dev);
 
         System.out.println(repo.toString());

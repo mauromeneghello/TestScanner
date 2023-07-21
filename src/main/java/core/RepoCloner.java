@@ -55,16 +55,27 @@ public class RepoCloner {
 
     public static void change_version(RepoInfo repo,String version) throws GitAPIException {
 
-        String v =  version.substring(0, version.indexOf("("));
+        String v =  extractVersionWithoutDate(version);
 
         try (Git git = Git.open(new File(repo.getCloning_dir_path() + "/" + repo.getRepo_name()))) {
             CheckoutCommand checkout = git.checkout();
-            checkout.setName(v); // version where i want to move.
+            checkout.setName(v); // version where I want to move.
             checkout.call();
             System.out.println("Moved to version " + v + " successfully!");
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static String extractVersionWithoutDate(String version) {
+        int indexOfParenthesis = version.indexOf("(");
+
+        if (indexOfParenthesis >= 0) {                              //if there is "(" in version, parse it
+            return version.substring(0, indexOfParenthesis);
+        }
+
+        return version;
     }
 
 
@@ -128,6 +139,19 @@ public class RepoCloner {
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static String getCurrentBranchOrVersion(RepoInfo repo) {
+        try (Git git = Git.open(new File(repo.getCloning_dir_path() + "/" + repo.getRepo_name()))) {
+            // Get current branch name (HEAD)
+            Ref head = git.getRepository().findRef("HEAD");
+
+            return head.getTarget().getName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }
