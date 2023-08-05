@@ -48,11 +48,11 @@ public class GetRepoStat {
 			waitForPageToLoad();
 
 			List<WebElement> socials = driver.findElements(By.xpath("//a[@class='Link Link--muted']"));
-			stats[0] = socials.get(0).getText().substring(0, socials.get(0).getText().indexOf(" ") );
+			stats[0] = socials.get(1).getText().substring(0, socials.get(1).getText().indexOf(" ") );
 			System.out.println(socials.get(0).getText() + "\t");   //stars
-			stats[1] = socials.get(1).getText().substring(0, socials.get(1).getText().indexOf(" ") );
+			stats[1] = socials.get(2).getText().substring(0, socials.get(2).getText().indexOf(" ") );
 			System.out.println(socials.get(1).getText() + "\t");   //watching
-			stats[2] = socials.get(2).getText().substring(0, socials.get(2).getText().indexOf(" ") );
+			stats[2] = socials.get(3).getText().substring(0, socials.get(3).getText().indexOf(" ") );
 			System.out.println(socials.get(2).getText() + "\t");   //forks
 
 			List<WebElement> nums = driver.findElements(By.xpath("//a[@class='Link--primary no-underline Link']"));
@@ -77,7 +77,7 @@ public class GetRepoStat {
 			stats[8] = contributors.get(1).getText();
 
 
-			SaveResults.WriteResultToExcel(1,repo_info.getRepo_name(),repo_info.getRepo_url(), version, stats );
+			SaveResults.WriteResultToExcel_GetRepoStat(repo_info.getRepo_name(),repo_info.getRepo_url(), version, stats );
 			System.out.println("Results saved succesfully!");
 
 

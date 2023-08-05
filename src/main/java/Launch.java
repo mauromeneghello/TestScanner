@@ -1,5 +1,7 @@
+import core.PlotGenerator;
 import core.RepoCloner;
 import core.RepoInfo;
+import core.SaveResults;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -44,6 +46,7 @@ public class Launch {
                     RepoCloner.change_version(repo,current_branch);            //back to main (current) version
                 }
             }
+            PlotGenerator.create_plot(repo.getRepo_name());
 
 
         } catch ( Exception e) {
@@ -52,10 +55,11 @@ public class Launch {
     }
 
     public static void launcher(RepoInfo repo, String version) throws Exception {
-        GetRepoStat.main(repo, version);
-        TestCodePropertyAnalyzer.main(repo, version);
-        CoverageCalculator.main(repo, version);
-        ProductionCodeCoverageAnalyzer.main(repo,version);
+        //GetRepoStat.main(repo, version);
+        //TestCodePropertyAnalyzer.main(repo, version);
+        //CoverageCalculator.main(repo, version);
+        //ProductionCodeCoverageAnalyzer.main(repo,version);
+        //MutationTesting.main(repo);
     }
 
     public static RepoInfo load_repo_info() throws IOException {
