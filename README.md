@@ -23,3 +23,13 @@ It was developed as part of my thesis project named "**Sviluppo di un framework 
   * `time_development` => flag to enable/disable past version analysis.
 + execute the `Launch.java` file.
 
+To run the framework without mutation testing, comment line 62 in the `Launch.java` file.
+```java
+57  public static void launcher(RepoInfo repo, String version) throws Exception {
+58          GetRepoStat.main(repo, version);
+59          TestCodePropertyAnalyzer.main(repo, version);
+60          CoverageCalculator.main(repo, version);
+61          ProductionCodeCoverageAnalyzer.main(repo,version);
+62          //MutationTesting.main(repo);
+63  }
+```
