@@ -5,7 +5,7 @@ TestScannerEvo is a framework designed to analyze and monitor the evolution of c
 It was developed as part of my thesis project named "**Sviluppo di un framework per l’esecuzione automatica di test suite: monitoraggio sistematico dell’evoluzione di coverage e mutation testing per librerie Javascript.**"
 . This framework is based on [TestScanner](https://github.com/saltlab/TestScanner), a tool created by two researchers, Amin Milani Fard and Ali Mesbah, during their study (JavaScript: The (Un)covered Parts).
 
-##How to run:
+## How to run:
 
 + clone the repo. 
 + build the project with Maven.
