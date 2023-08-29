@@ -2,11 +2,9 @@ package core;
 
 import java.io.*;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
+import org.apache.poi.hssf.record.HCenterRecord;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.plot.XYPlot;
@@ -51,12 +49,13 @@ public class SaveResults {
             Sheet sheet = workbook.getSheet(subject_name);
             if (sheet == null) {
                 sheet = workbook.createSheet(subject_name);
+                write_column_titles(sheet, subject_name);
             }
             //System.out.println(sheet.getLastRowNum());
 
             boolean foundSubject = false;
 
-            for (int i = 3; i <= sheet.getLastRowNum(); i++) {   // counter starts from 3 because the first 3 lines of the excel file should not be modified
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {   // counter starts from 3 because the first 3 lines of the excel file should not be modified
                 Row row = sheet.getRow(i);
 
                 if (row != null) {
@@ -183,6 +182,7 @@ public class SaveResults {
             Sheet sheet = workbook.getSheet(subject_name);
             if (sheet == null) {
                 sheet = workbook.createSheet(subject_name);
+                write_column_titles(sheet, subject_name);
             }
             //System.out.println(sheet.getLastRowNum());
 
@@ -292,6 +292,7 @@ public class SaveResults {
                 Sheet sheet = workbook.getSheet(subject_name);
                 if (sheet == null) {
                     sheet = workbook.createSheet(subject_name);
+                    write_column_titles(sheet, subject_name);
                 }
                 //System.out.println(sheet.getLastRowNum());
 
@@ -513,7 +514,51 @@ public class SaveResults {
             }
     }
 
+    public static void write_column_titles(Sheet sheet, String repo_name) {
+            // Column titles to be written
+            String[] data = {
+                    "Subject name", "URL", "Failure note", "Notes", "Statement coverage", "Branch coverage", "Function coverage",
+                    "# JS Files", "JS SLOC", "Test SLOC", "Test code ratio", "Num tests", "Num async tests", "Async test ratio",
+                    "Num assertions", "ave num assert per test", "Num fun calls", "Max fun calls", "Ave fun calls",
+                    "Num trigger in test", "Has DOM fixture", "Watches", "Stars", "Forks", "Commits", "Branches", "Releases",
+                    "Used by", "Contributors", "Note on test coverage report", "Total # functions", "Total covered function",
+                    "Total missed function", "# covered callback", "# missed callback", "# covered async callback",
+                    "# missed async callback", "# covered event-dep callback", "# missed event-dep callback",
+                    "# covered closure", "# missed closure", "# covered DOM related", "# missed DOM related",
+                    "Callback coverage", "Async callback coverage", "Event-dep callback coverage", "Closure coverage",
+                    "DOM related coverage", "Uncovered Statement in Uncovered Function Ratio"
+            };
 
+            Font boldFont = sheet.getWorkbook().createFont();
+            boldFont.setBold(true);
+
+            CellStyle titleCellStyle = sheet.getWorkbook().createCellStyle();
+            titleCellStyle.setWrapText(true);
+            titleCellStyle.setFont(boldFont);
+
+            CellStyle centerCellStyle = sheet.getWorkbook().createCellStyle();
+            centerCellStyle.setFont(boldFont);
+            centerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+
+            // Insert title in row 0
+            Row row = sheet.createRow(0);
+            Cell cell = row.createCell(1);
+            cell.setCellValue(repo_name.toUpperCase(Locale.ROOT));
+            cell.setCellStyle(centerCellStyle);
+
+            // Insert column titles in row 3
+            row = sheet.createRow(2);
+            for (int i = 0; i < data.length; i++) {
+                cell = row.createCell(i);
+                cell.setCellValue(data[i]);
+                cell.setCellStyle(titleCellStyle);
+                if (i == 1) {
+                    sheet.setColumnWidth(i, 55 * 256); // Set width of column 2
+                }else{
+                    sheet.setColumnWidth(i, 11*256);
+                }
+            }
+    }
 }
 
 

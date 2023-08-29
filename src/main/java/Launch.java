@@ -55,11 +55,11 @@ public class Launch {
     }
 
     public static void launcher(RepoInfo repo, String version) throws Exception {
-        //GetRepoStat.main(repo, version);
-        //TestCodePropertyAnalyzer.main(repo, version);
-        //CoverageCalculator.main(repo, version);
-        //ProductionCodeCoverageAnalyzer.main(repo,version);
-        //MutationTesting.main(repo);
+        GetRepoStat.main(repo, version);
+        TestCodePropertyAnalyzer.main(repo, version);
+        CoverageCalculator.main(repo, version);
+        ProductionCodeCoverageAnalyzer.main(repo,version);
+        MutationTesting.main(repo);
     }
 
     public static RepoInfo load_repo_info() throws IOException {
