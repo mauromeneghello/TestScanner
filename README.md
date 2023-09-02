@@ -33,3 +33,6 @@ To run the framework without mutation testing, comment line 62 in the `Launch.ja
 62          //MutationTesting.main(repo);
 63  }
 ```
+
+## Results:
+Results are available inside the `results/` folder in this repository.  Download `results.xlsx` to see coverage results. Open the `mutation.html` files on a browser to see mutation testing results.
