@@ -1,4 +1,4 @@
-TestScanner
+TestScannerEvo
 ======
 TestScannerEvo is a framework designed to analyze and monitor the evolution of coverage and mutation testing across test suites for Javascript libraries.
 
